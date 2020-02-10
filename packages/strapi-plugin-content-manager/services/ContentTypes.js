@@ -79,6 +79,7 @@ const formatAttribute = (key, attribute, { model }) => {
   if (plugin === 'upload' && targetEntity === 'file') {
     return {
       type: 'media',
+      metadata: attribute.metadata,
       multiple: attribute.collection ? true : false,
       required: attribute.required ? true : false,
     };

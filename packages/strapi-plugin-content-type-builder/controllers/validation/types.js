@@ -195,5 +195,8 @@ const getTypeShape = (attribute, { modelType } = {}) => {
 };
 
 module.exports = {
-  getTypeShape,
+  getTypeShape: (...args) =>
+    Object.assign(getTypeShape(...args), {
+      metadata: yup.object(),
+    }),
 };

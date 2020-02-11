@@ -66,7 +66,7 @@ const getDisplayedValue = (type, value, name) => {
   }
 };
 
-function Row({ goTo, isBulkable, row, headers }) {
+function Row({ goTo, isBulkable, isDeletable, row, headers }) {
   const {
     entriesToDelete,
     onChangeBulk,
@@ -84,6 +84,27 @@ function Row({ goTo, isBulkable, row, headers }) {
   );
 
   const { emitEvent } = useGlobalContext();
+
+  const icons = [
+    {
+      icoType: 'pencil-alt',
+      onClick: () => {
+        emitEvent('willEditEntryFromList');
+        goTo(row.id);
+      },
+    },
+  ];
+
+  if (isDeletable) {
+    icons.push({
+      id: row.id,
+      icoType: 'trash',
+      onClick: () => {
+        emitEvent('willDeleteEntryFromList');
+        onClickDelete(row.id);
+      },
+    });
+  }
 
   return (
     <>
@@ -115,23 +136,7 @@ function Row({ goTo, isBulkable, row, headers }) {
       <ActionContainer>
         <IcoContainer
           style={{ minWidth: 'inherit', width: '100%', lineHeight: 48 }}
-          icons={[
-            {
-              icoType: 'pencil-alt',
-              onClick: () => {
-                emitEvent('willEditEntryFromList');
-                goTo(row.id);
-              },
-            },
-            {
-              id: row.id,
-              icoType: 'trash',
-              onClick: () => {
-                emitEvent('willDeleteEntryFromList');
-                onClickDelete(row.id);
-              },
-            },
-          ]}
+          icons={icons}
         />
       </ActionContainer>
     </>
@@ -142,6 +147,7 @@ Row.propTypes = {
   goTo: PropTypes.func.isRequired,
   headers: PropTypes.array.isRequired,
   isBulkable: PropTypes.bool.isRequired,
+  isDeletable: PropTypes.bool.isRequired,
   row: PropTypes.object.isRequired,
 };
 

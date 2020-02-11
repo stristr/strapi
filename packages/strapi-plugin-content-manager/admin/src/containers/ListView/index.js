@@ -237,8 +237,9 @@ function ListView({
     },
   ];
 
-  const headerAction = [
-    {
+  const headerAction = [];
+  if (getLayoutSettingRef.current('creatable') !== false) {
+    headerAction.push({
       label: formatMessage(
         {
           id: 'content-manager.containers.List.addAnEntry',
@@ -262,8 +263,8 @@ function ListView({
         paddingRight: 15,
         fontWeight: 600,
       },
-    },
-  ];
+    });
+  }
 
   const headerProps = {
     title: {
@@ -367,6 +368,7 @@ function ListView({
                   data={data}
                   headers={getTableHeaders()}
                   isBulkable={getLayoutSettingRef.current('bulkable')}
+                  isDeletable={getLayoutSettingRef.current('deletable') !== false}
                   onChangeParams={handleChangeParams}
                 />
                 <Footer />

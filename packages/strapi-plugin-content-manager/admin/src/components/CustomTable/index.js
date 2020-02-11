@@ -18,6 +18,7 @@ function CustomTable({
     push,
   },
   isBulkable,
+  isDeletable,
 }) {
   const {
     emitEvent,
@@ -68,6 +69,7 @@ function CustomTable({
           >
             <Row
               isBulkable={isBulkable}
+              isDeletable={isDeletable}
               headers={headers}
               row={row}
               goTo={handleGoTo}
@@ -107,6 +109,7 @@ CustomTable.propTypes = {
     push: PropTypes.func.isRequired,
   }).isRequired,
   isBulkable: PropTypes.bool,
+  isDeletable: PropTypes.bool,
 };
 
 export default withRouter(memo(CustomTable));

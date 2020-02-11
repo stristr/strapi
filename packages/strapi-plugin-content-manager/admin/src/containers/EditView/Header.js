@@ -76,7 +76,7 @@ const Header = () => {
       },
     ];
 
-    if (!isCreatingEntry) {
+    if (!isCreatingEntry && get(layout, ['settings', 'deletable']) !== false) {
       headerActions.unshift({
         label: formatMessage({
           id: 'app.utils.delete',

@@ -44,10 +44,12 @@ module.exports = {
   },
 
   create(data, { files, model } = {}) {
+    strapi.services.modelvalidation.validate(model, data, files);
     return strapi.entityService.create({ data, files }, { model });
   },
 
   edit(params, data, { model, files } = {}) {
+    strapi.services.modelvalidation.validate(model, data, files);
     return strapi.entityService.update({ params, data, files }, { model });
   },
 

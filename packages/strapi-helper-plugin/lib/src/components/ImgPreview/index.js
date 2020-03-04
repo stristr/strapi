@@ -24,6 +24,7 @@ class ImgPreview extends React.Component {
     isOver: false,
     isOverArrow: false,
     isImg: false,
+    isVideo: false,
     isInitValue: false,
   };
 
@@ -38,6 +39,7 @@ class ImgPreview extends React.Component {
         get(this.props.files, ['0', 'url'], '') ||
         get(this.props.files, 'url', ''),
       isImg: this.isPictureType(file),
+      isVideo: this.isVideoType(file),
     });
   }
 
@@ -68,7 +70,7 @@ class ImgPreview extends React.Component {
     }
 
     if (isEmpty(nextProps.files)) {
-      this.setState({ isImg: false, imgURL: null });
+      this.setState({ isImg: false, isVideo: false, imgURL: null });
     }
   }
 
@@ -84,24 +86,24 @@ class ImgPreview extends React.Component {
    * @return {URL}
    */
   generateImgURL = file => {
-    if (this.isPictureType(file.name) && !has(file, 'url')) {
+    if (!has(file, 'url')) {
       const reader = new FileReader();
       reader.onloadend = () => {
         this.setState({
           imgURL: reader.result,
-          isImg: true,
+          isImg: this.isPictureType(file.name),
+          isVideo: this.isVideoType(file.name),
         });
       };
 
       reader.readAsDataURL(file);
-    } else if (has(file, 'url')) {
+    } else {
       const isImg = this.isPictureType(file.name);
+      const isVideo = this.isVideoType(file.name);
       const imgURL =
         file.url[0] === '/' ? `${strapi.backendURL}${file.url}` : file.url;
 
-      this.setState({ isImg, imgURL });
-    } else {
-      this.setState({ isImg: false, imgURL: file.name });
+      this.setState({ isImg, isVideo, imgURL });
     }
   };
 
@@ -151,6 +153,7 @@ class ImgPreview extends React.Component {
 
   // TODO change logic to depend on the type
   isPictureType = fileName => /\.(jpe?g|png|gif)$/i.test(fileName);
+  isVideoType = fileName => /\.(mp4)$/i.test(fileName);
 
   updateFilePosition = newPosition => {
     this.props.updateFilePosition(newPosition);
@@ -165,6 +168,13 @@ class ImgPreview extends React.Component {
         : this.state.imgURL;
 
       return <img src={imgURL} alt="" />;
+    }
+
+    if (this.state.isVideo) {
+      const imgURL = startsWith(this.state.imgURL, '/')
+        ? `${strapi.backendURL}${this.state.imgURL}`
+        : this.state.imgURL;
+      return <video style={{maxWidth: '100%', maxHeight: '100%'}} src={imgURL} />;
     }
 
     return (

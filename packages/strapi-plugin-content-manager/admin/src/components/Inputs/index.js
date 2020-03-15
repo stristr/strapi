@@ -9,6 +9,7 @@ import InputJSONWithErrors from '../InputJSONWithErrors';
 import InputFileWithErrors from '../InputFileWithErrors';
 import SelectWrapper from '../SelectWrapper';
 import WysiwygWithErrors from '../WysiwygWithErrors';
+import ColorpickerWithErrors from '../ColorpickerWithErrors';
 
 const getInputType = (type = '') => {
   switch (toLower(type)) {
@@ -42,6 +43,8 @@ const getInputType = (type = '') => {
     case 'WYSIWYG':
     case 'richtext':
       return 'wysiwyg';
+    case 'color':
+      return 'colorpicker';
     default:
       return 'text';
   }
@@ -165,6 +168,7 @@ function Inputs({ autoFocus, keys, layout, name, onBlur }) {
               media: InputFileWithErrors,
               json: InputJSONWithErrors,
               wysiwyg: WysiwygWithErrors,
+              colorpicker: ColorpickerWithErrors,
             }}
             multiple={get(attribute, 'multiple', false)}
             name={keys}

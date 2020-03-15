@@ -96,7 +96,11 @@ class ImgPreview extends React.Component {
         });
       };
 
-      reader.readAsDataURL(file);
+      try {
+        reader.readAsDataURL(file);
+      } catch (_) {
+        // ...
+      }
     } else {
       const isImg = this.isPictureType(file.name);
       const isVideo = this.isVideoType(file.name);

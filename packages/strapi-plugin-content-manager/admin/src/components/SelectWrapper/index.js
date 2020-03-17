@@ -64,7 +64,7 @@ function SelectWrapper({
         });
 
         const formattedData = data.map(obj => {
-          return { value: obj, label: obj[mainField] };
+          return { value: obj, label: obj[mainField] || `ID #${obj.id}` };
         });
 
         if (!isEmpty(params._q)) {

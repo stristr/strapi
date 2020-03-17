@@ -19,7 +19,7 @@ const Relation = ({ data, mainField, onRemove, to }) => {
         <FormattedMessage id={`${pluginId}.containers.Edit.clickToJump`}>
           {title => (
             <Link to={to} title={title}>
-              <span>{data[mainField]}</span>
+              <span>{data[mainField] || `ID #${data.id}`}</span>
             </Link>
           )}
         </FormattedMessage>

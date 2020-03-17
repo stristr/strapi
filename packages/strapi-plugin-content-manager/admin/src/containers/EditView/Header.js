@@ -43,7 +43,7 @@ const Header = () => {
         id: `${pluginId}.containers.Edit.pluginHeader.title.new`,
       })
     : templateObject({ mainField: currentContentTypeMainField }, initialData)
-        .mainField;
+        .mainField || `ID #${initialData.id}`;
   /* eslint-enable indent */
 
   const getHeaderActions = () => {

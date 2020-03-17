@@ -73,6 +73,7 @@ module.exports = async ({
       case 'string':
       case 'password':
       case 'email':
+      case 'color':
         return table.string(name);
       case 'integer':
         return table.integer(name);

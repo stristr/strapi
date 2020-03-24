@@ -94,6 +94,9 @@ const Wrapper = styled.div`
           div {
             height: 36px;
             cursor: pointer;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
         }
       }

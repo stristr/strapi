@@ -108,6 +108,13 @@ const Li = styled.li`
       align-items: center;
       transition: color 0.25s ease-out;
 
+      > a {
+        display: block;
+        padding-right: 1em;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
       &:hover {
         .dragHandle {
           > span {

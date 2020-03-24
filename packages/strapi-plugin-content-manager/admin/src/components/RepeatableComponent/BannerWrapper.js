@@ -95,6 +95,9 @@ const BannerWrapper = styled.button`
   }
   span, div, button {
     line-height: 16px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
   }
 
   .img-wrapper {

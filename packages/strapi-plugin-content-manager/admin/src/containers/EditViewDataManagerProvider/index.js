@@ -212,6 +212,7 @@ const EditViewDataManagerProvider = ({
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setIsSubmitting();
 
     // Create yup schema
     const schema = createYupSchema(currentContentTypeLayout, {
@@ -290,6 +291,8 @@ const EditViewDataManagerProvider = ({
         type: 'SUBMIT_ERRORS',
         errors,
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -420,7 +423,7 @@ const EditViewDataManagerProvider = ({
         },
       }}
     >
-      {showLoader ? (
+      {(showLoader || shouldShowLoadingState) ? (
         <LoadingIndicatorPage />
       ) : (
         <>

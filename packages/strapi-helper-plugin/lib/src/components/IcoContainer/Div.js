@@ -5,13 +5,16 @@ const Div = styled.div`
   min-width: 60px;
   justify-content: flex-end;
   > div {
-    width: 30px;
+    width: auto;
+    padding: 0 10px;
     height: 100%;
     color: #0e1622;
+    &:hover > svg {
+      color: rgb(0, 126, 255);
+    }
   }
   > div:last-child {
-    margin-left: 0;
-    padding-left: 7px;
+    padding-right: 0;
   }
 `;
 export default Div;

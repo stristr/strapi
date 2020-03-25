@@ -224,7 +224,9 @@ class Strapi extends EventEmitter {
       await this.load();
 
       // Run bootstrap function.
-      await this.runBootstrapFunctions();
+      if (process.env.HEADLESS_MODE) {
+        await this.runBootstrapFunctions();
+      }
       // Freeze object.
       await this.freeze();
       // Is the project initialised?

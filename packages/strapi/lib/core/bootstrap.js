@@ -139,9 +139,11 @@ module.exports = function(strapi) {
   }, {});
 
   // Set routes.
-  strapi.config.routes = Object.keys(strapi.api || []).reduce((acc, key) => {
-    return acc.concat(_.get(strapi.api[key], 'config.routes') || {});
-  }, []);
+  if (process.env.PRIVATE_MODE) {
+    strapi.config.routes = Object.keys(strapi.api || []).reduce((acc, key) => {
+      return acc.concat(_.get(strapi.api[key], 'config.routes') || {});
+    }, []);
+  }
 
   // Init admin controllers.
   Object.keys(strapi.admin.controllers || []).forEach(key => {

@@ -224,9 +224,8 @@ class Strapi extends EventEmitter {
       await this.load();
 
       // Run bootstrap function.
-      if (process.env.HEADLESS_MODE) {
-        await this.runBootstrapFunctions();
-      }
+      await this.runBootstrapFunctions();
+
       // Freeze object.
       await this.freeze();
       // Is the project initialised?
@@ -485,6 +484,12 @@ class Strapi extends EventEmitter {
     }
 
     const pluginBoostraps = Object.keys(this.plugins).map(plugin => {
+      if (!process.env.HEADLESS_MODE) {
+        if (['content-manager', 'users-permissions'].includes(plugin)) {
+          console.log(`Skipping bootstrap for plugin ${plugin}`);
+          return;
+        }
+      }
       return execBootstrap(
         _.get(this.plugins[plugin], 'config.functions.bootstrap')
       ).catch(err => {
@@ -496,7 +501,9 @@ class Strapi extends EventEmitter {
 
     await Promise.all(pluginBoostraps);
 
-    return execBootstrap(_.get(this.config, ['functions', 'bootstrap']));
+    if (process.env.HEADLESS_MODE) {
+      return execBootstrap(_.get(this.config, ['functions', 'bootstrap']));
+    }
   }
 
   async freeze() {

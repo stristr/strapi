@@ -66,7 +66,9 @@ const populateBareAssociations = (definition, { prefix = '' } = {}) => {
           })
         );
 
-      return [path, ...polyAssocs];
+      const relation = ['manyToMany', 'manyWay'].includes(assoc.nature) ?
+        {[path]: (query) => query.orderBy('_pivot_order')} : path;
+      return [relation, ...polyAssocs];
     })
     .reduce((acc, val) => acc.concat(val), []);
 };
@@ -85,8 +87,10 @@ const formatAssociationPopulate = ({ assoc, prefix = '' }) => {
     );
 
   const components = populateComponents(assocModel, { prefix: `${path}.` });
+  const relation = ['manyToMany', 'manyWay'].includes(assoc.nature) ?
+    {[path]: (query) => query.orderBy('_pivot_order')} : path;
 
-  return [path, ...polyAssocs, ...components];
+  return [relation, ...polyAssocs, ...components];
 };
 
 const populateComponents = (definition, { prefix = '' } = {}) => {

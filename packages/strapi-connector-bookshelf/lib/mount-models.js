@@ -250,6 +250,13 @@ module.exports = ({ models, target, plugin = false }, ctx) => {
           // Set this info to be able to see if this field is a real database's field.
           details.isVirtual = true;
 
+          // Push our order field through here.
+          if (!details.withPivot) {
+            details.withPivot = [];
+          }
+
+          details.withPivot.push('order');
+
           if (nature === 'manyWay') {
             const joinTableName = `${definition.collectionName}__${_.snakeCase(
               name
@@ -274,11 +281,7 @@ module.exports = ({ models, target, plugin = false }, ctx) => {
                 otherKey
               );
 
-              if (Array.isArray(details.withPivot)) {
-                return collection.withPivot(details.withPivot);
-              }
-
-              return collection;
+              return collection.withPivot(details.withPivot);
             };
           } else {
             const joinTableName =
@@ -320,7 +323,7 @@ module.exports = ({ models, target, plugin = false }, ctx) => {
                 return collection.withPivot(details.withPivot);
               }
 
-              return collection;
+              return collection.withPivot(details.withPivot);
             };
           }
 

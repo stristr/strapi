@@ -245,16 +245,13 @@ module.exports = {
                     association
                   ).map(id => id.toString());
 
-                  const toAdd = _.difference(storedValue, currentValue);
-                  const toRemove = _.difference(currentValue, storedValue);
-
                   const collection = this.forge({
                     [this.primaryKey]: primaryKeyValue,
                   })[association.alias]();
 
                   const updatePromise = collection
-                    .detach(toRemove, { transacting })
-                    .then(() => collection.attach(toAdd, { transacting }));
+                    .detach(currentValue, { transacting })
+                    .then(() => collection.attach(storedValue.map((id, order) => ({[`${association.collection}_id`]: id, order})), { transacting }));
 
                   relationUpdates.push(updatePromise);
                   return acc;

@@ -464,6 +464,9 @@ module.exports = async ({
         [rootCol]: {
           type: definition.primaryKeyType,
         },
+        order: {
+          type: 'integer',
+        },
       };
 
       const table = manyRelation.tableCollectionName;
